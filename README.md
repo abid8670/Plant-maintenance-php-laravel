@@ -1,61 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Plant Maintenance Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A **plant & equipment maintenance management system (CMMS)** built on **Laravel 12 + Filament 3.3**,
+intended to manage work orders, preventive maintenance schedules and plant asset history.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ⚠️ Repository status
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**This repository currently contains only the Laravel project skeleton — no application code.**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The committed tree is limited to the framework scaffolding:
 
-## Learning Laravel
+```
+.editorconfig      .env.example       .gitignore
+.env               .htaccess          artisan
+.gitattributes     composer.json      composer.lock
+package.json       phpunit.xml        vite.config.js
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+There is no `app/`, `database/`, `routes/`, `resources/` or `public/` directory, so the application
+cannot be run from this repository as it stands.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**If you arrived here expecting a working CMMS: the source has not been published yet.**
+The full application exists locally and still needs to be pushed.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Intended scope
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Area | Description |
+|------|-------------|
+| **Work orders** | Raise, assign, prioritise and close maintenance work orders |
+| **Preventive maintenance** | Recurring schedules by machine, meter reading or calendar interval |
+| **Asset register** | Plant and equipment records with location and criticality |
+| **Breakdowns** | Downtime logging and root-cause notes |
+| **Spare parts** | Parts consumption against work orders |
+| **History** | Full maintenance history per asset |
+| **Reporting** | MTTR / MTBF and maintenance cost reporting |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Planned stack
 
-## Contributing
+| Layer | Technology |
+|-------|-----------|
+| Framework | Laravel 12 (PHP 8.2+) |
+| Admin panel | Filament 3.3 |
+| Seeding | orangehill/iseed |
+| Database | MySQL |
+| Frontend | Blade + Vite |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Running it (once the application code is pushed)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+composer install
+npm install
 
-## Security Vulnerabilities
+cp .env.example .env
+php artisan key:generate
+# set DB_* in .env
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+php artisan migrate --seed
+
+npm run build
+php artisan serve
+```
+
+---
+
+## 🚨 Security note
+
+The committed `.env` file must be removed from version control and its contents rotated:
+
+- `APP_KEY` — rotatable with `php artisan key:generate`
+- `MAIL_PASSWORD` — a live **Gmail app password**. It must be revoked in the Google account and a
+  new one issued, then stored only in an untracked `.env`.
+
+`.env` is already listed in `.gitignore`, but it was committed **before** that line existed, so Git
+continues to track it. Untrack it with:
+
+```bash
+git rm --cached .env
+git commit -m "Stop tracking .env"
+```
+
+Note that this removes the file going forward but does **not** erase it from history — the
+credential must be revoked regardless.
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Proprietary — not licensed for redistribution.
